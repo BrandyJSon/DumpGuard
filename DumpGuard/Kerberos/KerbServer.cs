@@ -161,7 +161,8 @@ namespace DumpGuard.Kerberos
             };
 
             using (var request = new KERB_KDC_REQUEST(KERB_MESSAGE_TYPE.KrbAsReq, pa_data, KERB_KDC_OPTIONS.Forwardable | KERB_KDC_OPTIONS.Renewable | KERB_KDC_OPTIONS.RenewableOk,
-                username, domain, service, null, DateTime.UtcNow.AddYears(1), DateTime.UtcNow.AddYears(1), new KERB_ETYPE[] { KERB_ETYPE.aes256 }, null, null, null))
+                // ADDED AES128 & RC4_hmac etype to prevent suspicious AS_REQ alert
+                username, domain, service, null, DateTime.UtcNow.AddYears(1), DateTime.UtcNow.AddYears(1), new KERB_ETYPE[] { KERB_ETYPE.aes256, KERB_ETYPE.aes128, KERB_ETYPE.rc4_hmac }, null, null, null))
             {
                 return Interop.EncodeObject(request, KERB_ASN1_PDU.KerbAsRequest);
             }

